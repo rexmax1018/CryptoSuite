@@ -7,10 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Models\" />
-    <Folder Include="Internal\" />
-    <Folder Include="Implementations\" />
+    <ProjectReference Include="..\CryptoSuite.Config\CryptoSuite.Config.csproj" />
+    <ProjectReference Include="..\CryptoSuite.Helpers\CryptoSuite.Helpers.csproj" />
+    <ProjectReference Include="..\CryptoSuite.KeyManagement\CryptoSuite.KeyManagement.csproj" />
   </ItemGroup>
 
 </Project>
