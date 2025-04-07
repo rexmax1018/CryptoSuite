@@ -23,6 +23,7 @@ namespace CryptoSuite.Services
             return algorithm switch
             {
                 CryptoAlgorithmType.AES when keyModel is SymmetricKeyModel aes => AesEncrypt(data, aes),
+                CryptoAlgorithmType.RSA when keyModel is RsaKeyModel rsa => RsaEncrypt(data, rsa),
                 _ => throw new NotSupportedException($"Encrypt 不支援的演算法或金鑰類型: {algorithm}")
             };
         }
@@ -40,6 +41,7 @@ namespace CryptoSuite.Services
             return algorithm switch
             {
                 CryptoAlgorithmType.AES when keyModel is SymmetricKeyModel aes => AesDecrypt(encrypted, aes),
+                CryptoAlgorithmType.RSA when keyModel is RsaKeyModel rsa => RsaDecrypt(encrypted, rsa),
                 _ => throw new NotSupportedException($"Decrypt 不支援的演算法或金鑰類型: {algorithm}")
             };
         }
@@ -84,8 +86,11 @@ namespace CryptoSuite.Services
         #region AES
 
         /// <summary>
-        /// 使用 AES 演算法加密資料。
+        /// 使用 AES 對資料進行對稱加密。
         /// </summary>
+        /// <param name="data">原始資料</param>
+        /// <param name="keyModel">對稱金鑰與 IV</param>
+        /// <returns>加密後資料</returns>
         private byte[] AesEncrypt(byte[] data, SymmetricKeyModel keyModel)
         {
             using var aes = Aes.Create();
@@ -97,8 +102,11 @@ namespace CryptoSuite.Services
         }
 
         /// <summary>
-        /// 使用 AES 演算法解密資料。
+        /// 使用 AES 解密資料。
         /// </summary>
+        /// <param name="encrypted">加密後資料</param>
+        /// <param name="keyModel">對稱金鑰與 IV</param>
+        /// <returns>解密後資料</returns>
         private byte[] AesDecrypt(byte[] encrypted, SymmetricKeyModel keyModel)
         {
             using var aes = Aes.Create();
@@ -114,8 +122,11 @@ namespace CryptoSuite.Services
         #region RSA
 
         /// <summary>
-        /// 使用 RSA 私鑰進行簽章。
+        /// 使用 RSA 私鑰對資料簽章。
         /// </summary>
+        /// <param name="data">原始資料</param>
+        /// <param name="keyModel">RSA 私鑰 PEM 格式</param>
+        /// <returns>簽章資料</returns>
         private byte[] RsaSign(byte[] data, RsaKeyModel keyModel)
         {
             using var rsa = RSA.Create();
@@ -124,8 +135,12 @@ namespace CryptoSuite.Services
         }
 
         /// <summary>
-        /// 使用 RSA 公鑰進行簽章驗證。
+        /// 使用 RSA 公鑰驗證簽章。
         /// </summary>
+        /// <param name="data">原始資料</param>
+        /// <param name="signature">簽章資料</param>
+        /// <param name="keyModel">RSA 公鑰 PEM 格式</param>
+        /// <returns>驗章是否成功</returns>
         private bool RsaVerify(byte[] data, byte[] signature, RsaKeyModel keyModel)
         {
             using var rsa = RSA.Create();
@@ -133,13 +148,42 @@ namespace CryptoSuite.Services
             return rsa.VerifyData(data, signature, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
         }
 
+        /// <summary>
+        /// 使用 RSA 公鑰加密資料（僅適合短資料）。
+        /// </summary>
+        /// <param name="data">原始資料</param>
+        /// <param name="keyModel">RSA 公鑰 PEM 格式</param>
+        /// <returns>加密資料</returns>
+        private byte[] RsaEncrypt(byte[] data, RsaKeyModel keyModel)
+        {
+            using var rsa = RSA.Create();
+            rsa.ImportFromPem(keyModel.PublicKeyPem.ToCharArray());
+            return rsa.Encrypt(data, RSAEncryptionPadding.Pkcs1);
+        }
+
+        /// <summary>
+        /// 使用 RSA 私鑰解密資料。
+        /// </summary>
+        /// <param name="encrypted">加密後資料</param>
+        /// <param name="keyModel">RSA 私鑰 PEM 格式</param>
+        /// <returns>解密後資料</returns>
+        private byte[] RsaDecrypt(byte[] encrypted, RsaKeyModel keyModel)
+        {
+            using var rsa = RSA.Create();
+            rsa.ImportFromPem(keyModel.PrivateKeyPem.ToCharArray());
+            return rsa.Decrypt(encrypted, RSAEncryptionPadding.Pkcs1);
+        }
+
         #endregion
 
         #region ECC
 
         /// <summary>
-        /// 使用 ECC 私鑰進行簽章。
+        /// 使用 ECC 私鑰簽章。
         /// </summary>
+        /// <param name="data">原始資料</param>
+        /// <param name="keyModel">ECC 私鑰 PEM 格式</param>
+        /// <returns>簽章資料</returns>
         private byte[] EccSign(byte[] data, EccKeyModel keyModel)
         {
             using var ecdsa = ECDsa.Create();
@@ -148,8 +192,12 @@ namespace CryptoSuite.Services
         }
 
         /// <summary>
-        /// 使用 ECC 公鑰驗證簽章。
+        /// 使用 ECC 公鑰驗章。
         /// </summary>
+        /// <param name="data">原始資料</param>
+        /// <param name="signature">簽章資料</param>
+        /// <param name="keyModel">ECC 公鑰 PEM 格式</param>
+        /// <returns>驗章是否成功</returns>
         private bool EccVerify(byte[] data, byte[] signature, EccKeyModel keyModel)
         {
             using var ecdsa = ECDsa.Create();

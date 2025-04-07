@@ -39,11 +39,31 @@ namespace CryptoSuite.Tests.Services
                 PublicKeyPem = publicPem
             };
 
-            var data = Encoding.UTF8.GetBytes("CryptoSuite RSA Test");
+            var data = Encoding.UTF8.GetBytes("CryptoSuite RSA Sign Test");
             var signature = _service.Sign(data, CryptoAlgorithmType.RSA, key);
             var isValid = _service.Verify(data, signature, CryptoAlgorithmType.RSA, key);
 
             Assert.True(isValid);
+        }
+
+        [Fact(DisplayName = "RSA 加解密應正確還原原文")]
+        public void Rsa_Encrypt_And_Decrypt_ShouldReturnOriginal()
+        {
+            using var rsa = RSA.Create(2048);
+            var privatePem = ExportPrivateKey(rsa);
+            var publicPem = ExportPublicKey(rsa);
+
+            var key = new RsaKeyModel
+            {
+                PrivateKeyPem = privatePem,
+                PublicKeyPem = publicPem
+            };
+
+            var data = Encoding.UTF8.GetBytes("RSA encryption test");
+            var encrypted = _service.Encrypt(data, CryptoAlgorithmType.RSA, key);
+            var decrypted = _service.Decrypt(encrypted, CryptoAlgorithmType.RSA, key);
+
+            Assert.Equal(data, decrypted);
         }
 
         [Fact(DisplayName = "ECC 簽章與驗章應正確對應")]
