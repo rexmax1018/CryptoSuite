@@ -3,7 +3,7 @@ using CryptoSuite.KeyManagement.Interfaces;
 using CryptoSuite.KeyManagement.Models;
 using CryptoSuite.Services.Interfaces;
 
-namespace CryptoSuite.Services.Implementations
+namespace CryptoSuite.Services
 {
     /// <summary>
     /// 提供金鑰產生與載入服務，統一包裝各演算法產生器與載入器。

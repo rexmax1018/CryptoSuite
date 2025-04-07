@@ -1,7 +1,7 @@
 ﻿using CryptoSuite.KeyManagement.Enums;
 using CryptoSuite.KeyManagement.Interfaces;
 using CryptoSuite.KeyManagement.Models;
-using CryptoSuite.Services.Implementations;
+using CryptoSuite.Services;
 using Moq;
 using System.Text;
 

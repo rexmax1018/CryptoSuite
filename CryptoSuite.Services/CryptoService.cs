@@ -3,7 +3,7 @@ using CryptoSuite.KeyManagement.Models;
 using CryptoSuite.Services.Interfaces;
 using System.Security.Cryptography;
 
-namespace CryptoSuite.Services.Implementations
+namespace CryptoSuite.Services
 {
     /// <summary>
     /// 提供 AES、RSA、ECC 的加解密、簽章與驗章等整合性功能。
