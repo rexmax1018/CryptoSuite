@@ -130,7 +130,7 @@ namespace CryptoSuite.Services
         private byte[] RsaSign(byte[] data, RsaKeyModel keyModel)
         {
             using var rsa = RSA.Create();
-            rsa.ImportFromPem(keyModel.PrivateKeyPem.ToCharArray());
+            rsa.ImportFromPem(keyModel.PrivateKey.ToCharArray());
             return rsa.SignData(data, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
         }
 
@@ -144,7 +144,7 @@ namespace CryptoSuite.Services
         private bool RsaVerify(byte[] data, byte[] signature, RsaKeyModel keyModel)
         {
             using var rsa = RSA.Create();
-            rsa.ImportFromPem(keyModel.PublicKeyPem.ToCharArray());
+            rsa.ImportFromPem(keyModel.PublicKey.ToCharArray());
             return rsa.VerifyData(data, signature, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
         }
 
@@ -157,7 +157,7 @@ namespace CryptoSuite.Services
         private byte[] RsaEncrypt(byte[] data, RsaKeyModel keyModel)
         {
             using var rsa = RSA.Create();
-            rsa.ImportFromPem(keyModel.PublicKeyPem.ToCharArray());
+            rsa.ImportFromPem(keyModel.PublicKey.ToCharArray());
             return rsa.Encrypt(data, RSAEncryptionPadding.Pkcs1);
         }
 
@@ -170,7 +170,7 @@ namespace CryptoSuite.Services
         private byte[] RsaDecrypt(byte[] encrypted, RsaKeyModel keyModel)
         {
             using var rsa = RSA.Create();
-            rsa.ImportFromPem(keyModel.PrivateKeyPem.ToCharArray());
+            rsa.ImportFromPem(keyModel.PrivateKey.ToCharArray());
             return rsa.Decrypt(encrypted, RSAEncryptionPadding.Pkcs1);
         }
 
@@ -187,7 +187,7 @@ namespace CryptoSuite.Services
         private byte[] EccSign(byte[] data, EccKeyModel keyModel)
         {
             using var ecdsa = ECDsa.Create();
-            ecdsa.ImportFromPem(keyModel.PrivateKeyPem.ToCharArray());
+            ecdsa.ImportFromPem(keyModel.PrivateKey.ToCharArray());
             return ecdsa.SignData(data, HashAlgorithmName.SHA256);
         }
 
@@ -201,7 +201,7 @@ namespace CryptoSuite.Services
         private bool EccVerify(byte[] data, byte[] signature, EccKeyModel keyModel)
         {
             using var ecdsa = ECDsa.Create();
-            ecdsa.ImportFromPem(keyModel.PublicKeyPem.ToCharArray());
+            ecdsa.ImportFromPem(keyModel.PublicKey.ToCharArray());
             return ecdsa.VerifyData(data, signature, HashAlgorithmName.SHA256);
         }
 

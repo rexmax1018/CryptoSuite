@@ -10,12 +10,12 @@ namespace CryptoSuite.KeyManagement.Models
         /// <summary>
         /// 公鑰（PEM 格式）
         /// </summary>
-        public string PublicKeyPem { get; set; } = string.Empty;
+        public string PublicKey { get; set; } = string.Empty;
 
         /// <summary>
         /// 私鑰（PEM 格式）
         /// </summary>
-        public string PrivateKeyPem { get; set; } = string.Empty;
+        public string PrivateKey { get; set; } = string.Empty;
 
         /// <summary>
         /// 使用的橢圓曲線類型

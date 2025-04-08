@@ -30,8 +30,8 @@ namespace CryptoSuite.Tests.KeyGenerators
             var model = generator.GenerateKeyOnly();
 
             Assert.NotNull(model);
-            Assert.Contains("BEGIN PRIVATE KEY", model.PrivateKeyPem);
-            Assert.Contains("BEGIN PUBLIC KEY", model.PublicKeyPem);
+            Assert.Contains("BEGIN PRIVATE KEY", model.PrivateKey);
+            Assert.Contains("BEGIN PUBLIC KEY", model.PublicKey);
             Assert.Equal(2048, model.KeySize);
         }
 
@@ -47,8 +47,8 @@ namespace CryptoSuite.Tests.KeyGenerators
             var model = JsonConvert.DeserializeObject<RsaKeyModel>(json);
 
             Assert.NotNull(model);
-            Assert.Contains("BEGIN PRIVATE KEY", model.PrivateKeyPem);
-            Assert.Contains("BEGIN PUBLIC KEY", model.PublicKeyPem);
+            Assert.Contains("BEGIN PRIVATE KEY", model.PrivateKey);
+            Assert.Contains("BEGIN PUBLIC KEY", model.PublicKey);
 
             File.Delete(result.KeyFilePath);
         }
@@ -65,8 +65,8 @@ namespace CryptoSuite.Tests.KeyGenerators
             var model = JsonConvert.DeserializeObject<RsaKeyModel>(json);
 
             Assert.NotNull(model);
-            Assert.Contains("BEGIN PRIVATE KEY", model.PrivateKeyPem);
-            Assert.Contains("BEGIN PUBLIC KEY", model.PublicKeyPem);
+            Assert.Contains("BEGIN PRIVATE KEY", model.PrivateKey);
+            Assert.Contains("BEGIN PUBLIC KEY", model.PublicKey);
 
             File.Delete(result.KeyFilePath);
         }
@@ -85,8 +85,8 @@ namespace CryptoSuite.Tests.KeyGenerators
             var model = JsonConvert.DeserializeObject<RsaKeyModel>(json);
 
             Assert.NotNull(model);
-            Assert.Contains("BEGIN PRIVATE KEY", model.PrivateKeyPem);
-            Assert.Contains("BEGIN PUBLIC KEY", model.PublicKeyPem);
+            Assert.Contains("BEGIN PRIVATE KEY", model.PrivateKey);
+            Assert.Contains("BEGIN PUBLIC KEY", model.PublicKey);
 
             File.Delete(path);
         }

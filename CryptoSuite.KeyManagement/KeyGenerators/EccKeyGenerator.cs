@@ -27,8 +27,8 @@ namespace CryptoSuite.KeyManagement.KeyGenerators
 
             return new EccKeyModel
             {
-                PrivateKeyPem = privateKey,
-                PublicKeyPem = publicKey,
+                PrivateKey = privateKey,
+                PublicKey = publicKey,
                 Curve = curve,
                 CreatedAt = DateTime.UtcNow
             };

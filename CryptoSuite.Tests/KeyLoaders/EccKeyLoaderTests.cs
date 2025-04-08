@@ -10,8 +10,8 @@ namespace CryptoSuite.Tests.KeyLoaders
     {
         private readonly EccKeyModel _sampleModel = new()
         {
-            PublicKeyPem = "-----BEGIN PUBLIC KEY-----\nMFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAE...\n-----END PUBLIC KEY-----",
-            PrivateKeyPem = "-----BEGIN PRIVATE KEY-----\nMIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQg...\n-----END PRIVATE KEY-----",
+            PublicKey = "-----BEGIN PUBLIC KEY-----\nMFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAE...\n-----END PUBLIC KEY-----",
+            PrivateKey = "-----BEGIN PRIVATE KEY-----\nMIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQg...\n-----END PRIVATE KEY-----",
             Curve = EccCurveType.NistP256,
             CreatedAt = DateTime.UtcNow
         };
@@ -29,7 +29,7 @@ namespace CryptoSuite.Tests.KeyLoaders
 
             Assert.NotNull(model);
             Assert.Equal(_sampleModel.Curve, model.Curve);
-            Assert.Contains("BEGIN PUBLIC KEY", model.PublicKeyPem);
+            Assert.Contains("BEGIN PUBLIC KEY", model.PublicKey);
 
             File.Delete(path);
         }
@@ -45,7 +45,7 @@ namespace CryptoSuite.Tests.KeyLoaders
 
             Assert.NotNull(model);
             Assert.Equal(EccCurveType.NistP256, model.Curve);
-            Assert.Contains("BEGIN PRIVATE KEY", model.PrivateKeyPem);
+            Assert.Contains("BEGIN PRIVATE KEY", model.PrivateKey);
         }
 
         [Fact(DisplayName = "無效 Base64 字串應拋出 InvalidDataException")]

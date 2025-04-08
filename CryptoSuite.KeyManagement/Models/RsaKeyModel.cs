@@ -8,12 +8,12 @@
         /// <summary>
         /// 公鑰（PEM 格式字串）
         /// </summary>
-        public string PublicKeyPem { get; set; } = string.Empty;
+        public string PublicKey { get; set; } = string.Empty;
 
         /// <summary>
         /// 私鑰（PEM 格式字串）
         /// </summary>
-        public string PrivateKeyPem { get; set; } = string.Empty;
+        public string PrivateKey { get; set; } = string.Empty;
 
         /// <summary>
         /// 金鑰長度（bits）

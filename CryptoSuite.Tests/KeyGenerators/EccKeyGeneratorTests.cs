@@ -25,8 +25,8 @@ namespace CryptoSuite.Tests.KeyGenerators
             var model = generator.GenerateKeyOnly();
 
             Assert.NotNull(model);
-            Assert.Contains("BEGIN PRIVATE KEY", model.PrivateKeyPem);
-            Assert.Contains("BEGIN PUBLIC KEY", model.PublicKeyPem);
+            Assert.Contains("BEGIN PRIVATE KEY", model.PrivateKey);
+            Assert.Contains("BEGIN PUBLIC KEY", model.PublicKey);
             Assert.Equal(EccCurveType.NistP256, model.Curve);
         }
 
@@ -43,7 +43,7 @@ namespace CryptoSuite.Tests.KeyGenerators
             var model = JsonConvert.DeserializeObject<EccKeyModel>(json);
 
             Assert.NotNull(model);
-            Assert.Contains("BEGIN PRIVATE KEY", model.PrivateKeyPem);
+            Assert.Contains("BEGIN PRIVATE KEY", model.PrivateKey);
             Assert.Equal(EccCurveType.NistP256, model.Curve);
 
             File.Delete(result.KeyFilePath);
@@ -62,7 +62,7 @@ namespace CryptoSuite.Tests.KeyGenerators
             var model = JsonConvert.DeserializeObject<EccKeyModel>(json);
 
             Assert.NotNull(model);
-            Assert.Contains("BEGIN PUBLIC KEY", model.PublicKeyPem);
+            Assert.Contains("BEGIN PUBLIC KEY", model.PublicKey);
             Assert.Equal(EccCurveType.NistP256, model.Curve);
 
             File.Delete(result.KeyFilePath);
@@ -83,7 +83,7 @@ namespace CryptoSuite.Tests.KeyGenerators
             var model = JsonConvert.DeserializeObject<EccKeyModel>(json);
 
             Assert.NotNull(model);
-            Assert.Contains("BEGIN PRIVATE KEY", model.PrivateKeyPem);
+            Assert.Contains("BEGIN PRIVATE KEY", model.PrivateKey);
 
             File.Delete(path);
         }

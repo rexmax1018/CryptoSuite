@@ -25,8 +25,8 @@ namespace CryptoSuite.KeyManagement.KeyGenerators
 
             return new RsaKeyModel
             {
-                PrivateKeyPem = privateKey,
-                PublicKeyPem = publicKey,
+                PrivateKey = privateKey,
+                PublicKey = publicKey,
                 KeySize = ConfigRoot.Current.RSA.KeySize,
                 CreatedAt = DateTime.UtcNow
             };

@@ -35,8 +35,8 @@ namespace CryptoSuite.Tests.Services
 
             var key = new RsaKeyModel
             {
-                PrivateKeyPem = privatePem,
-                PublicKeyPem = publicPem
+                PrivateKey = privatePem,
+                PublicKey = publicPem
             };
 
             var data = Encoding.UTF8.GetBytes("CryptoSuite RSA Sign Test");
@@ -55,8 +55,8 @@ namespace CryptoSuite.Tests.Services
 
             var key = new RsaKeyModel
             {
-                PrivateKeyPem = privatePem,
-                PublicKeyPem = publicPem
+                PrivateKey = privatePem,
+                PublicKey = publicPem
             };
 
             var data = Encoding.UTF8.GetBytes("RSA encryption test");
@@ -75,8 +75,8 @@ namespace CryptoSuite.Tests.Services
 
             var key = new EccKeyModel
             {
-                PrivateKeyPem = privatePem,
-                PublicKeyPem = publicPem
+                PrivateKey = privatePem,
+                PublicKey = publicPem
             };
 
             var data = Encoding.UTF8.GetBytes("CryptoSuite ECC Test");

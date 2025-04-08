@@ -9,8 +9,8 @@ namespace CryptoSuite.Tests.KeyLoaders
     {
         private readonly RsaKeyModel _sampleModel = new()
         {
-            PublicKeyPem = "-----BEGIN PUBLIC KEY-----\nMIIBIjAN...\n-----END PUBLIC KEY-----",
-            PrivateKeyPem = "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADAN...\n-----END PRIVATE KEY-----",
+            PublicKey = "-----BEGIN PUBLIC KEY-----\nMIIBIjAN...\n-----END PUBLIC KEY-----",
+            PrivateKey = "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADAN...\n-----END PRIVATE KEY-----",
             KeySize = 2048,
             CreatedAt = DateTime.UtcNow
         };
@@ -28,7 +28,7 @@ namespace CryptoSuite.Tests.KeyLoaders
 
             Assert.NotNull(model);
             Assert.Equal(2048, model.KeySize);
-            Assert.Contains("BEGIN PUBLIC KEY", model.PublicKeyPem);
+            Assert.Contains("BEGIN PUBLIC KEY", model.PublicKey);
 
             File.Delete(path);
         }
@@ -44,7 +44,7 @@ namespace CryptoSuite.Tests.KeyLoaders
 
             Assert.NotNull(model);
             Assert.Equal(2048, model.KeySize);
-            Assert.Contains("BEGIN PRIVATE KEY", model.PrivateKeyPem);
+            Assert.Contains("BEGIN PRIVATE KEY", model.PrivateKey);
         }
 
         [Fact(DisplayName = "無效 Base64 應拋出 InvalidDataException")]
