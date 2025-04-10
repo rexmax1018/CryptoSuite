@@ -1,28 +1,54 @@
 # CryptoSuite
+## 貢獻
 
-CryptoSuite 是一個基於 .NET 8 的加密套件，提供多種加密、解密、金鑰管理和輔助功能，旨在簡化開發人員在 .NET 平台上的加密操作。該專案使用 Visual Studio 2022 作為主要開發環境，並採用了 `Newtonsoft.Json` 作為 JSON 處理庫。
+歡迎提交問題回報與功能建議！請參考 [CONTRIBUTING.md](CONTRIBUTING.md) 以了解如何參與貢獻。
+
+## 授權
+
+此專案採用 [MIT 授權](LICENSE)。
+## 範例程式
+
+以下是使用 RSA 加密的簡單範例：
+### 建置專案
+
+1. 使用 Visual Studio 2022 開啟解決方案檔案 `CryptoSuite.sln`。
+2. 選擇 `Release` 或 `Debug` 模式，並建置專案。
+
+### 執行範例
+
+1. 設定啟動專案為 `CryptoSuite.DemoConsole`。
+2. 執行專案以查看範例程式的運行結果。
+
+### 測試
+
+執行以下指令以執行所有單元測試：
+CryptoSuite 是一個基於 .NET 8 的加密工具套件，提供多種加密、解密、金鑰管理與數據處理功能，旨在幫助開發者在 .NET 平台上輕鬆實現加密相關的應用程式開發。此專案使用 Visual Studio 2022 開發，並依賴 `Newtonsoft.Json` 進行 JSON 處理。
 
 ## 功能特性
 
-- **加密與解密**：提供對稱（如 AES）與非對稱（如 RSA）加密演算法的實作，方便進行資料的加解密操作。
-- **金鑰管理**：包含金鑰的生成、儲存與載入功能，確保金鑰的安全性與可用性。
-- **配置管理**：透過 `CryptoSuite.Config` 命名空間（使用別名 `ConfigRoot`）進行加密相關配置的管理。
-- **輔助工具**：提供各種輔助方法，簡化加密相關的操作，如編碼轉換、隨機數生成等。
+- **加密與解密**：
+  - 支援對稱加密（如 AES）。
+  - 支援非對稱加密（如 RSA）。
+- **金鑰管理**：
+  - 提供金鑰生成、存儲與載入功能，確保金鑰的安全性與可用性。
+- **配置管理**：
+  - 通過 `CryptoSuite.Config` 管理加密相關的配置，並支持以 `ConfigRoot` 為基礎的靈活配置。
+- **數據處理**：
+  - 提供多種數據處理工具，如數據簽名與驗證，適用於多種場景。
 
 ## 專案結構
 
-- `CryptoSuite.Config`：負責加密套件的配置管理，使用別名 `ConfigRoot`。
+- `CryptoSuite.Config`：負責加密與配置的管理，基於 `ConfigRoot`。
 - `CryptoSuite.Core`：核心功能模組，包含主要的加密與解密邏輯。
-- `CryptoSuite.Encryption`：實作具體的加密演算法，如 AES、RSA 等。
-- `CryptoSuite.KeyManagement`：提供金鑰的生成、儲存與載入功能。
-- `CryptoSuite.Helpers`：輔助工具類別，提供編碼轉換、隨機數生成等功能。
-- `CryptoSuite.Services`：服務層，封裝高階的加密服務供外部呼叫。
-- `CryptoSuite.DemoConsole`：主控台示例應用程式，展示如何使用 CryptoSuite 的各項功能。
-- `CryptoSuite.Tests`：單元測試專案，確保各模組的功能正確性。
+- `CryptoSuite.Encryption`：實現具體的加密算法（如 AES、RSA）。
+- `CryptoSuite.KeyManagement`：提供金鑰生成、存儲與載入功能。
+- `CryptoSuite.Helpers`：包含輔助工具，如數據格式轉換與錯誤處理。
+- `CryptoSuite.Services`：提供加密相關的服務，支持業務邏輯集成。
+- `CryptoSuite.DemoConsole`：範例應用程式，展示如何使用 CryptoSuite 的功能。
+- `CryptoSuite.Tests`：單元測試模組，確保功能的正確性與穩定性。
 
 ## 安裝與使用
 
-1. **克隆儲存庫**：
+### 下載專案
 
-   ```bash
-   git clone https://github.com/rexmax1018/CryptoSuite.git
+使用以下指令下載專案：
