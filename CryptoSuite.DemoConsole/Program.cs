@@ -1,8 +1,8 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection;
 using CryptoSuite.DemoConsole;
 using CryptoSuite.DemoConsole.Demos;
+using Microsoft.Extensions.DependencyInjection;
 
 var serviceCollection = new ServiceCollection();
 var builder = new ContainerBuilder();

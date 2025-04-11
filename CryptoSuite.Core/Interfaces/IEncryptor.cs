@@ -1,4 +1,3 @@
-
 namespace CryptoSuite.Core.Interfaces
 {
     /// <summary>
@@ -7,6 +6,7 @@ namespace CryptoSuite.Core.Interfaces
     public interface IEncryptor
     {
         byte[] Encrypt(byte[] data);
+
         byte[] Decrypt(byte[] encryptedData);
     }
 }

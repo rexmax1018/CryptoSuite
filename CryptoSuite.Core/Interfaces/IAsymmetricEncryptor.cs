@@ -6,6 +6,7 @@
     public interface IAsymmetricEncryptor : IEncryptor
     {
         void SetPublicKey(string publicKey);
+
         void SetPrivateKey(string privateKey);
     }
 }

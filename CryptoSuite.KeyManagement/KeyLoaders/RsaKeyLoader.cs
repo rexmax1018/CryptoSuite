@@ -1,7 +1,7 @@
-﻿using System.Text;
-using CryptoSuite.KeyManagement.Interfaces;
+﻿using CryptoSuite.KeyManagement.Interfaces;
 using CryptoSuite.KeyManagement.Models;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace CryptoSuite.KeyManagement.KeyLoaders
 {

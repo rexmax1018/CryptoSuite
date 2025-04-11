@@ -117,7 +117,7 @@ namespace CryptoSuite.Services
             return decryptor.TransformFinalBlock(encrypted, 0, encrypted.Length);
         }
 
-        #endregion
+        #endregion AES
 
         #region RSA
 
@@ -174,7 +174,7 @@ namespace CryptoSuite.Services
             return rsa.Decrypt(encrypted, RSAEncryptionPadding.Pkcs1);
         }
 
-        #endregion
+        #endregion RSA
 
         #region ECC
 
@@ -205,6 +205,6 @@ namespace CryptoSuite.Services
             return ecdsa.VerifyData(data, signature, HashAlgorithmName.SHA256);
         }
 
-        #endregion
+        #endregion ECC
     }
 }
