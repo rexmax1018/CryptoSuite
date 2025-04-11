@@ -1,4 +1,6 @@
-﻿# 🔐 CryptoSuite
+﻿<img src="./assets/logo.png" alt="Logo" width="200"/>
+
+# CryptoSuite
 
 CryptoSuite 是一個用於 .NET 的模組化加解密套件，支援 AES、RSA、ECC 等多種演算法，並具備金鑰管理、設定檔讀取、簽署與驗簽等功能，適用於各類安全通訊與數位簽署應用。  
 本套件以 **擴充性與可讀性為核心設計理念**，並整合多項現代加密技術，適合用於企業後端、API 安全、CLI 工具與桌面應用等場景。
