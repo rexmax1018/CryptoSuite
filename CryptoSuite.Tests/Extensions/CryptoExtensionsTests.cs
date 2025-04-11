@@ -4,6 +4,7 @@ using CryptoSuite.Services.Interfaces;
 using Moq;
 
 namespace CryptoSuite.Tests.Extensions;
+
 public class CryptoExtensionsTests
 {
     private readonly Mock<ICryptoService> _mockService = new();

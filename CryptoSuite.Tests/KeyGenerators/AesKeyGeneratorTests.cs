@@ -3,96 +3,95 @@ using CryptoSuite.KeyManagement.KeyGenerators;
 using CryptoSuite.KeyManagement.Models;
 using Newtonsoft.Json;
 
-namespace CryptoSuite.Tests.KeyGenerators
+namespace CryptoSuite.Tests.KeyGenerators;
+
+public class AesKeyGeneratorTests
 {
-    public class AesKeyGeneratorTests
+    private static void InitializeCryptoConfig()
     {
-        private static void InitializeCryptoConfig()
+        CryptoConfig.Override(new CryptoConfigModel
         {
-            CryptoConfig.Override(new CryptoConfigModel
+            KeyDirectory = Path.GetTempPath(),
+            AES = new AesConfig
             {
-                KeyDirectory = Path.GetTempPath(),
-                AES = new AesConfig
-                {
-                    KeySize = 256
-                }
-            });
-        }
+                KeySize = 256
+            }
+        });
+    }
 
-        [Fact(DisplayName = "GenerateAndSaveKey 應建立合法的 JSON 檔")]
-        public void GenerateAndSaveKey_ShouldCreateValidJsonFile()
-        {
-            InitializeCryptoConfig();
+    [Fact(DisplayName = "GenerateAndSaveKey 應建立合法的 JSON 檔")]
+    public void GenerateAndSaveKey_ShouldCreateValidJsonFile()
+    {
+        InitializeCryptoConfig();
 
-            var generator = new AesKeyGenerator();
-            var result = generator.GenerateAndSaveKey();
+        var generator = new AesKeyGenerator();
+        var result = generator.GenerateAndSaveKey();
 
-            Assert.True(File.Exists(result.KeyFilePath));
+        Assert.True(File.Exists(result.KeyFilePath));
 
-            string json = File.ReadAllText(result.KeyFilePath);
-            var model = JsonConvert.DeserializeObject<SymmetricKeyModel>(json);
+        string json = File.ReadAllText(result.KeyFilePath);
+        var model = JsonConvert.DeserializeObject<SymmetricKeyModel>(json);
 
-            Assert.NotNull(model);
-            Assert.Equal(32, model.Key.Length); // AES-256 key
-            Assert.Equal(16, model.IV.Length);  // AES IV 長度
+        Assert.NotNull(model);
+        Assert.Equal(32, model.Key.Length); // AES-256 key
+        Assert.Equal(16, model.IV.Length);  // AES IV 長度
 
-            File.Delete(result.KeyFilePath);
-        }
+        File.Delete(result.KeyFilePath);
+    }
 
-        [Fact(DisplayName = "GenerateAndSaveKeyAsync 應建立合法的 JSON 檔（非同步）")]
-        public async Task GenerateAndSaveKeyAsync_ShouldCreateValidJsonFileAsync()
-        {
-            InitializeCryptoConfig();
+    [Fact(DisplayName = "GenerateAndSaveKeyAsync 應建立合法的 JSON 檔（非同步）")]
+    public async Task GenerateAndSaveKeyAsync_ShouldCreateValidJsonFileAsync()
+    {
+        InitializeCryptoConfig();
 
-            var generator = new AesKeyGenerator();
-            var result = await generator.GenerateAndSaveKeyAsync();
+        var generator = new AesKeyGenerator();
+        var result = await generator.GenerateAndSaveKeyAsync();
 
-            Assert.True(File.Exists(result.KeyFilePath));
+        Assert.True(File.Exists(result.KeyFilePath));
 
-            string json = await File.ReadAllTextAsync(result.KeyFilePath);
-            var model = JsonConvert.DeserializeObject<SymmetricKeyModel>(json);
+        string json = await File.ReadAllTextAsync(result.KeyFilePath);
+        var model = JsonConvert.DeserializeObject<SymmetricKeyModel>(json);
 
-            Assert.NotNull(model);
-            Assert.Equal(32, model.Key.Length);
-            Assert.Equal(16, model.IV.Length);
+        Assert.NotNull(model);
+        Assert.Equal(32, model.Key.Length);
+        Assert.Equal(16, model.IV.Length);
 
-            File.Delete(result.KeyFilePath);
-        }
+        File.Delete(result.KeyFilePath);
+    }
 
-        [Fact(DisplayName = "使用自訂路徑儲存應正確產生金鑰檔")]
-        public void GenerateAndSaveKey_WithCustomPath_ShouldWriteCorrectFile()
-        {
-            InitializeCryptoConfig();
+    [Fact(DisplayName = "使用自訂路徑儲存應正確產生金鑰檔")]
+    public void GenerateAndSaveKey_WithCustomPath_ShouldWriteCorrectFile()
+    {
+        InitializeCryptoConfig();
 
-            string path = Path.Combine(Path.GetTempPath(), $"test_{Guid.NewGuid()}.json");
+        string path = Path.Combine(Path.GetTempPath(), $"test_{Guid.NewGuid()}.json");
 
-            var generator = new AesKeyGenerator();
-            var result = generator.GenerateAndSaveKey(path);
+        var generator = new AesKeyGenerator();
+        var result = generator.GenerateAndSaveKey(path);
 
-            Assert.True(File.Exists(path));
-            Assert.Equal(path, result.KeyFilePath);
+        Assert.True(File.Exists(path));
+        Assert.Equal(path, result.KeyFilePath);
 
-            var json = File.ReadAllText(path);
-            var model = JsonConvert.DeserializeObject<SymmetricKeyModel>(json);
+        var json = File.ReadAllText(path);
+        var model = JsonConvert.DeserializeObject<SymmetricKeyModel>(json);
 
-            Assert.NotNull(model);
-            Assert.Equal(32, model.Key.Length);
-            Assert.Equal(16, model.IV.Length);
+        Assert.NotNull(model);
+        Assert.Equal(32, model.Key.Length);
+        Assert.Equal(16, model.IV.Length);
 
-            File.Delete(path);
-        }
+        File.Delete(path);
+    }
 
-        [Fact(DisplayName = "GenerateKeyOnly 應正確產生 SymmetricKeyModel")]
-        public void GenerateKeyOnly_ShouldReturnValidSymmetricKeyModel()
-        {
-            InitializeCryptoConfig();
+    [Fact(DisplayName = "GenerateKeyOnly 應正確產生 SymmetricKeyModel")]
+    public void GenerateKeyOnly_ShouldReturnValidSymmetricKeyModel()
+    {
+        InitializeCryptoConfig();
 
-            var generator = new AesKeyGenerator();
-            var model = generator.GenerateKeyOnly();
+        var generator = new AesKeyGenerator();
+        var model = generator.GenerateKeyOnly();
 
-            Assert.NotNull(model);
-            Assert.Equal(32, model.Key.Length);
-            Assert.Equal(16, model.IV.Length);
-        }
+        Assert.NotNull(model);
+        Assert.Equal(32, model.Key.Length);
+        Assert.Equal(16, model.IV.Length);
     }
 }

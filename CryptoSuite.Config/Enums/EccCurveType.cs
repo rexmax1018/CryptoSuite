@@ -1,13 +1,12 @@
-﻿namespace CryptoSuite.Config.Enums
+﻿namespace CryptoSuite.Config.Enums;
+
+/// <summary>
+/// ECC 支援的曲線類型。
+/// </summary>
+public enum EccCurveType
 {
-    /// <summary>
-    /// ECC 支援的曲線類型。
-    /// </summary>
-    public enum EccCurveType
-    {
-        NistP256,
-        NistP384,
-        NistP521,
-        Secp256k1
-    }
+    NistP256,
+    NistP384,
+    NistP521,
+    Secp256k1
 }

@@ -1,12 +1,11 @@
-namespace CryptoSuite.Core.Interfaces
-{
-    /// <summary>
-    /// 通用加解密介面
-    /// </summary>
-    public interface IEncryptor
-    {
-        byte[] Encrypt(byte[] data);
+namespace CryptoSuite.Core.Interfaces;
 
-        byte[] Decrypt(byte[] encryptedData);
-    }
+/// <summary>
+/// 通用加解密介面
+/// </summary>
+public interface IEncryptor
+{
+    byte[] Encrypt(byte[] data);
+
+    byte[] Decrypt(byte[] encryptedData);
 }

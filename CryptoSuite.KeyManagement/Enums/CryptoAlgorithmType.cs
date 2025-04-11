@@ -1,12 +1,11 @@
-﻿namespace CryptoSuite.KeyManagement.Enums
+﻿namespace CryptoSuite.KeyManagement.Enums;
+
+/// <summary>
+/// 支援的金鑰演算法類型。
+/// </summary>
+public enum CryptoAlgorithmType
 {
-    /// <summary>
-    /// 支援的金鑰演算法類型。
-    /// </summary>
-    public enum CryptoAlgorithmType
-    {
-        AES,
-        RSA,
-        ECC
-    }
+    AES,
+    RSA,
+    ECC
 }
