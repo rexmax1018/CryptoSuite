@@ -1,54 +1,106 @@
-# CryptoSuite
-## �^�m
+﻿# 🔐 CryptoSuite
 
-�w�ﴣ����D�^���P�\���ĳ�I�аѦ� [CONTRIBUTING.md](CONTRIBUTING.md) �H�F�Ѧp��ѻP�^�m�C
+CryptoSuite 是一個用於 .NET 的模組化加解密套件，支援 AES、RSA、ECC 等多種演算法，並具備金鑰管理、設定檔讀取、簽署與驗簽等功能，適用於各類安全通訊與數位簽署應用。  
+本套件以 **擴充性與可讀性為核心設計理念**，並整合多項現代加密技術，適合用於企業後端、API 安全、CLI 工具與桌面應用等場景。
 
-## ���v
+---
 
-���M�ױĥ� [MIT ���v](LICENSE)�C
-## �d�ҵ{��
+## 📦 專案架構
 
-�H�U�O�ϥ� RSA �[�K��²��d�ҡG
-### �ظm�M��
+```
+CryptoSuite/
+├── CryptoSuite.Core            # 核心介面與資料組織（演算法、金鑰模型等）
+├── CryptoSuite.Helpers         # 共用工具類（Base64、檔案處理、路徑等）
+├── CryptoSuite.KeyManagement   # 金鑰產生與儲存（AES / RSA / ECC）
+├── CryptoSuite.Services        # 整合加解密與簽署驗簽功能
+├── CryptoSuite.Extensions      # 擴充方法（EncryptWith、ToBase64 等）
+├── CryptoSuite.DemoConsole     # CLI 示範用戶端
+├── CryptoSuite.Cli             # 可封裝成 dotnet global tool 的 CLI 工具
+├── CryptoSuite.Tests           # 單元測試（xUnit）
+├── crypto_config.json          # 設定檔範本
+└── LICENSE / LICENSE.zh-TW     # 授權條款與繁中摘要
+```
 
-1. �ϥ� Visual Studio 2022 �}�ҸѨM����ɮ� `CryptoSuite.sln`�C
-2. ��� `Release` �� `Debug` �Ҧ��A�ëظm�M�סC
+---
 
-### ����d��
+## ⚙️ 功能特色
 
-1. �]�w�ҰʱM�׬� `CryptoSuite.DemoConsole`�C
-2. ����M�ץH�d�ݽd�ҵ{�����B�浲�G�C
+- ✅ 支援 AES / RSA / ECC 加解密與簽署
+- ✅ 金鑰資料夾自動管理，含隨機命名機制（8 碼英數）
+- ✅ 讀取自訂設定檔 `crypto_config.json`，集中管理
+- ✅ 使用 Newtonsoft.Json 處理所有 JSON
+- ✅ 支援 `ICryptoService` 與 `ICryptoKeyService` 接口
+- ✅ 擴充方法方便使用：`data.EncryptWith(...)`、`"abc".ToBytes()` 等
+- ✅ 可搭配 Autofac 依賴加入（Demo 已示範）
+- ✅ 多層模組化結構，方便獨立使用或封裝為 NuGet 套件
 
-### ����
+---
 
-����H�U���O�H����Ҧ��椸���աG
-CryptoSuite �O�@�Ӱ�� .NET 8 ���[�K�u��M��A���Ѧh�إ[�K�B�ѱK�B���_�޲z�P�ƾڳB�z�\��A���b���U�}�o�̦b .NET ���x�W���P��{�[�K���������ε{���}�o�C���M�רϥ� Visual Studio 2022 �}�o�A�è̿� `Newtonsoft.Json` �i�� JSON �B�z�C
+## 🚀 快速上手
 
-## �\��S��
+### 🔐 加解密範例（使用 Service）
+```csharp
+var data = "Hello World!";
+var keyModel = ...; // 從 key loader 載入的金鑰模型
+var encrypted = cryptoService.Encrypt(data, CryptoAlgorithm.AES, keyModel);
+var decrypted = cryptoService.Decrypt(encrypted, CryptoAlgorithm.AES, keyModel);
+```
 
-- **�[�K�P�ѱK**�G
-  - �䴩��٥[�K�]�p AES�^�C
-  - �䴩�D��٥[�K�]�p RSA�^�C
-- **���_�޲z**�G
-  - ���Ѫ��_�ͦ��B�s�x�P���J�\��A�T�O���_���w���ʻP�i�ΩʡC
-- **�t�m�޲z**�G
-  - �q�L `CryptoSuite.Config` �޲z�[�K�������t�m�A�ä���H `ConfigRoot` ����¦���F���t�m�C
-- **�ƾڳB�z**�G
-  - ���Ѧh�ؼƾڳB�z�u��A�p�ƾ�ñ�W�P���ҡA�A�Ω�h�س����C
+### 💡 加解密範例（使用 Extension）
+```csharp
+var encrypted = "Hello World!".EncryptWith(CryptoAlgorithm.AES, keyModel);
+var plainText = encrypted.DecryptWith(CryptoAlgorithm.AES, keyModel);
+```
 
-## �M�׵��c
+---
 
-- `CryptoSuite.Config`�G�t�d�[�K�P�t�m���޲z�A��� `ConfigRoot`�C
-- `CryptoSuite.Core`�G�֤ߥ\��ҲաA�]�t�D�n���[�K�P�ѱK�޿�C
-- `CryptoSuite.Encryption`�G��{���骺�[�K��k�]�p AES�BRSA�^�C
-- `CryptoSuite.KeyManagement`�G���Ѫ��_�ͦ��B�s�x�P���J�\��C
-- `CryptoSuite.Helpers`�G�]�t���U�u��A�p�ƾڮ榡�ഫ�P���~�B�z�C
-- `CryptoSuite.Services`�G���ѥ[�K�������A�ȡA����~���޿趰���C
-- `CryptoSuite.DemoConsole`�G�d�����ε{���A�i�ܦp��ϥ� CryptoSuite ���\��C
-- `CryptoSuite.Tests`�G�椸���ռҲաA�T�O�\�઺���T�ʻPí�w�ʡC
+## 🧰 單元測試
 
-## �w�˻P�ϥ�
+- 使用 [xUnit](https://xunit.net/)
+- 含 AES / RSA / ECC 金鑰產生與驗證測試
+- 擴充方法皆有對應測試（CryptoExtensions / StringExtensions / ByteExtensions）
 
-### �U���M��
+執行方式：
 
-�ϥΥH�U���O�U���M�סG
+```bash
+dotnet test
+```
+
+---
+
+## 📂 設定檔格式 `crypto_config.json`
+
+```json
+{
+  "KeyRootPath": "keys",
+  "AES": { "KeySize": 256 },
+  "RSA": { "KeySize": 2048 },
+  "ECC": { "CurveName": "nistP256" }
+}
+```
+
+---
+
+## 📄 License
+
+CryptoSuite is licensed under the [Apache License 2.0](./LICENSE).
+
+本專案亦提供 [繁體中文授權條款摘要](./LICENSE.zh-TW)，供中文使用者參考（非正式法律文件，以原始英文授權為準）。
+
+---
+
+## 🙌 貢獻方式（未來開放）
+
+目前專案由作者個人維護中，未來將一步步開放外部貢獻，敬請關注。
+
+如有建議或回報 bug，歡迎透過 [Issues](https://github.com/rexmax1018/CryptoSuite/issues) 與我聯絡。
+
+---
+
+## 🔗 延伸規劃（Roadmap）
+
+- [ ] JWT 套件整合（作為安全驗證模組）
+- [ ] 支援 NuGet 發展（CryptoSuite.Core / Extensions / Services）
+- [ ] 跨平台 CLI 工具封裝（dotnet tool install）
+- [ ] 支援 OpenAPI 的加密參數中介層（可套用於 Swagger）
+
