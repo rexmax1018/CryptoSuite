@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CryptoSuite.Config\CryptoSuite.Config.csproj" />
+    <ProjectReference Include="..\CryptoSuite.Extensions\CryptoSuite.Extensions.csproj" />
     <ProjectReference Include="..\CryptoSuite.Helpers\CryptoSuite.Helpers.csproj" />
     <ProjectReference Include="..\CryptoSuite.KeyManagement\CryptoSuite.KeyManagement.csproj" />
     <ProjectReference Include="..\CryptoSuite.Services\CryptoSuite.Services.csproj" />

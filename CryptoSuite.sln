@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "方案項目", "方案項�
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoSuite.Extensions", "CryptoSuite.Extensions\CryptoSuite.Extensions.csproj", "{AC17902F-34A7-495A-9A56-AD7574CEA876}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{B9A6C25E-7BA4-40BE-9815-4A0A8E1EF47E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9A6C25E-7BA4-40BE-9815-4A0A8E1EF47E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9A6C25E-7BA4-40BE-9815-4A0A8E1EF47E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC17902F-34A7-495A-9A56-AD7574CEA876}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC17902F-34A7-495A-9A56-AD7574CEA876}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC17902F-34A7-495A-9A56-AD7574CEA876}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC17902F-34A7-495A-9A56-AD7574CEA876}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
