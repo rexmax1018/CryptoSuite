@@ -1,9 +1,9 @@
 ﻿using CryptoSuite.Config;
 using CryptoSuite.Config.Enums;
+using CryptoSuite.Extensions;
 using CryptoSuite.KeyManagement.Enums;
 using CryptoSuite.KeyManagement.Models;
 using CryptoSuite.Services.Interfaces;
-using System.Text;
 
 namespace CryptoSuite.DemoConsole.Demos;
 
@@ -30,30 +30,35 @@ public class EccDemo
 
     public void Run()
     {
-        Console.WriteLine("[ECC] 產生金鑰中...");
+        Console.WriteLine("=== [ECC DEMO] 簽章驗章範例 ===");
 
         var key = _keyService.GenerateKeyOnly<EccKeyModel>(CryptoAlgorithmType.ECC);
 
-        Console.WriteLine("[ECC] 公鑰（PEM）：\n" + key.PublicKey);
+        Console.WriteLine("\n[ECC] 公鑰（PEM）：\n" + key.PublicKey);
         Console.WriteLine("[ECC] 私鑰（PEM）：\n" + key.PrivateKey);
 
         var plaintext = "Hello ECC!";
+        var data = plaintext.ToBytes();
 
         Console.WriteLine($"\n原文：{plaintext}");
 
-        var signature = _cryptoService.Sign(
-            Encoding.UTF8.GetBytes(plaintext),
-            CryptoAlgorithmType.ECC,
-            key);
+        // ===== 使用 CryptoService =====
+        var signatureByService = _cryptoService.Sign(data, CryptoAlgorithmType.ECC, key);
+        var verifiedByService = _cryptoService.Verify(data, signatureByService, CryptoAlgorithmType.ECC, key);
 
-        Console.WriteLine($"簽章（Base64）：{Convert.ToBase64String(signature)}");
+        Console.WriteLine("\n[CryptoService] 簽章（Base64）：");
+        Console.WriteLine(signatureByService.ToBase64());
+        Console.WriteLine("[CryptoService] 驗章結果：" + (verifiedByService ? "✔ 通過" : "✘ 失敗"));
 
-        var verified = _cryptoService.Verify(
-            Encoding.UTF8.GetBytes(plaintext),
-            signature,
-            CryptoAlgorithmType.ECC,
-            key);
+        // ===== 使用 Extension 語法 =====
+        var signatureByExt = data.SignWith(CryptoAlgorithmType.ECC, key, _cryptoService);
+        var verifiedByExt = data.VerifyWith(signatureByExt, CryptoAlgorithmType.ECC, key, _cryptoService);
 
-        Console.WriteLine($"驗章結果：{(verified ? "✔ 通過" : "✘ 失敗")}");
+        Console.WriteLine("\n[Extensions] 簽章（Base64）：");
+        Console.WriteLine(signatureByExt.ToBase64());
+        Console.WriteLine("[Extensions] 驗章結果：" + (verifiedByExt ? "✔ 通過" : "✘ 失敗"));
+
+        // 比對一致性
+        Console.WriteLine($"\n[驗證] 簽章一致：{signatureByExt.ToBase64() == signatureByService.ToBase64()}");
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CryptoSuite.Config;
+using CryptoSuite.Extensions;
 using CryptoSuite.KeyManagement.Enums;
 using CryptoSuite.KeyManagement.Models;
 using CryptoSuite.Services.Interfaces;
@@ -16,7 +17,7 @@ public class AesDemo
         _cryptoService = cryptoService;
         _keyService = keyService;
 
-        // 初始化測試用 CryptoConfig
+        // 初始化 AES 金鑰設定
         CryptoConfig.Override(new CryptoConfigModel
         {
             KeyDirectory = Path.GetTempPath(),
@@ -26,30 +27,39 @@ public class AesDemo
 
     public void Run()
     {
-        Console.WriteLine("[AES] 產生金鑰中...");
+        Console.WriteLine("=== [AES DEMO] 加解密範例 ===");
 
         var key = _keyService.GenerateKeyOnly<SymmetricKeyModel>(CryptoAlgorithmType.AES);
 
-        Console.WriteLine("[AES] 金鑰內容：");
-        Console.WriteLine($"Key: {Convert.ToBase64String(key.Key)}");
-        Console.WriteLine($"IV:  {Convert.ToBase64String(key.IV)}");
+        // 顯示金鑰資訊
+        Console.WriteLine("\n[AES] 金鑰內容：");
+        Console.WriteLine($"Key: {key.Key.ToBase64()}");
+        Console.WriteLine($"IV : {key.IV.ToBase64()}");
 
         var plaintext = "Hello from CryptoSuite!";
+        var data = plaintext.ToBytes();
 
         Console.WriteLine($"\n原文：{plaintext}");
 
-        var encrypted = _cryptoService.Encrypt(
-            Encoding.UTF8.GetBytes(plaintext),
-            CryptoAlgorithmType.AES,
-            key);
+        // ===== 使用 CryptoService =====
+        var encryptedByService = _cryptoService.Encrypt(data, CryptoAlgorithmType.AES, key);
+        var decryptedByService = _cryptoService.Decrypt(encryptedByService, CryptoAlgorithmType.AES, key);
 
-        Console.WriteLine($"加密（Base64）：{Convert.ToBase64String(encrypted)}");
+        Console.WriteLine("\n[CryptoService] 加密後（Base64）：");
+        Console.WriteLine(encryptedByService.ToBase64());
+        Console.WriteLine("[CryptoService] 解密後還原：");
+        Console.WriteLine(decryptedByService.ToUtf8String());
 
-        var decrypted = _cryptoService.Decrypt(
-            encrypted,
-            CryptoAlgorithmType.AES,
-            key);
+        // ===== 使用 Extension 語法糖 =====
+        var encryptedByExtension = data.EncryptWith(CryptoAlgorithmType.AES, key, _cryptoService);
+        var decryptedByExtension = encryptedByExtension.DecryptWith(CryptoAlgorithmType.AES, key, _cryptoService);
 
-        Console.WriteLine($"解密還原：{Encoding.UTF8.GetString(decrypted)}");
+        Console.WriteLine("\n[Extensions] 加密後（Base64）：");
+        Console.WriteLine(encryptedByExtension.ToBase64());
+        Console.WriteLine("[Extensions] 解密後還原：");
+        Console.WriteLine(decryptedByExtension.ToUtf8String());
+
+        // 結果驗證
+        Console.WriteLine($"\n[驗證] 解密一致：{Encoding.UTF8.GetString(decryptedByService) == Encoding.UTF8.GetString(decryptedByExtension)}");
     }
 }

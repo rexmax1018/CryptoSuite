@@ -1,9 +1,9 @@
 ﻿using CryptoSuite.Config;
 using CryptoSuite.Config.Enums;
+using CryptoSuite.Extensions;
 using CryptoSuite.KeyManagement.Enums;
 using CryptoSuite.KeyManagement.Models;
 using CryptoSuite.Services.Interfaces;
-using System.Text;
 
 namespace CryptoSuite.DemoConsole.Demos;
 
@@ -31,44 +31,54 @@ public class RsaDemo
 
     public void Run()
     {
-        Console.WriteLine("[RSA] 產生金鑰中...");
+        Console.WriteLine("=== [RSA DEMO] 加解密 + 簽章驗章範例 ===");
 
         var key = _keyService.GenerateKeyOnly<RsaKeyModel>(CryptoAlgorithmType.RSA);
 
-        Console.WriteLine("[RSA] 公鑰（PEM）：\n" + key.PublicKey);
+        Console.WriteLine("\n[RSA] 公鑰（PEM）：\n" + key.PublicKey);
         Console.WriteLine("[RSA] 私鑰（PEM）：\n" + key.PrivateKey);
 
         var plaintext = "Hello RSA!";
+        var data = plaintext.ToBytes();
 
         Console.WriteLine($"\n原文：{plaintext}");
 
-        var encrypted = _cryptoService.Encrypt(
-            Encoding.UTF8.GetBytes(plaintext),
-            CryptoAlgorithmType.RSA,
-            key);
+        // ===== 使用 CryptoService 加解密 =====
+        var encryptedByService = _cryptoService.Encrypt(data, CryptoAlgorithmType.RSA, key);
+        var decryptedByService = _cryptoService.Decrypt(encryptedByService, CryptoAlgorithmType.RSA, key);
 
-        Console.WriteLine($"加密（Base64）：{Convert.ToBase64String(encrypted)}");
+        Console.WriteLine("\n[CryptoService] 加密（Base64）：");
+        Console.WriteLine(encryptedByService.ToBase64());
+        Console.WriteLine("[CryptoService] 解密還原：");
+        Console.WriteLine(decryptedByService.ToUtf8String());
 
-        var decrypted = _cryptoService.Decrypt(
-            encrypted,
-            CryptoAlgorithmType.RSA,
-            key);
+        // ===== 使用 Extension 加解密 =====
+        var encryptedByExt = data.EncryptWith(CryptoAlgorithmType.RSA, key, _cryptoService);
+        var decryptedByExt = encryptedByExt.DecryptWith(CryptoAlgorithmType.RSA, key, _cryptoService);
 
-        Console.WriteLine($"解密還原：{Encoding.UTF8.GetString(decrypted)}");
+        Console.WriteLine("\n[Extensions] 加密（Base64）：");
+        Console.WriteLine(encryptedByExt.ToBase64());
+        Console.WriteLine("[Extensions] 解密還原：");
+        Console.WriteLine(decryptedByExt.ToUtf8String());
 
-        var signature = _cryptoService.Sign(
-            Encoding.UTF8.GetBytes(plaintext),
-            CryptoAlgorithmType.RSA,
-            key);
+        Console.WriteLine($"\n[驗證] 解密一致：{decryptedByService.ToUtf8String() == decryptedByExt.ToUtf8String()}");
 
-        Console.WriteLine($"簽章（Base64）：{Convert.ToBase64String(signature)}");
+        // ===== 使用 CryptoService 簽章驗章 =====
+        var signatureByService = _cryptoService.Sign(data, CryptoAlgorithmType.RSA, key);
+        var verifiedByService = _cryptoService.Verify(data, signatureByService, CryptoAlgorithmType.RSA, key);
 
-        var verified = _cryptoService.Verify(
-            Encoding.UTF8.GetBytes(plaintext),
-            signature,
-            CryptoAlgorithmType.RSA,
-            key);
+        Console.WriteLine("\n[CryptoService] 簽章（Base64）：");
+        Console.WriteLine(signatureByService.ToBase64());
+        Console.WriteLine("[CryptoService] 驗章結果：" + (verifiedByService ? "✔ 通過" : "✘ 失敗"));
 
-        Console.WriteLine($"驗章結果：{(verified ? "✔ 通過" : "✘ 失敗")}");
+        // ===== 使用 Extension 簽章驗章 =====
+        var signatureByExt = data.SignWith(CryptoAlgorithmType.RSA, key, _cryptoService);
+        var verifiedByExt = data.VerifyWith(signatureByExt, CryptoAlgorithmType.RSA, key, _cryptoService);
+
+        Console.WriteLine("\n[Extensions] 簽章（Base64）：");
+        Console.WriteLine(signatureByExt.ToBase64());
+        Console.WriteLine("[Extensions] 驗章結果：" + (verifiedByExt ? "✔ 通過" : "✘ 失敗"));
+
+        Console.WriteLine($"\n[驗證] 簽章一致：{signatureByService.ToBase64() == signatureByExt.ToBase64()}");
     }
 }
