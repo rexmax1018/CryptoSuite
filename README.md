@@ -18,7 +18,7 @@ CryptoSuite/
 ├── CryptoSuite.Services        # 整合加解密與簽署驗簽功能
 ├── CryptoSuite.Extensions      # 擴充方法（EncryptWith、ToBase64 等）
 ├── CryptoSuite.DemoConsole     # CLI 示範用戶端
-├── CryptoSuite.Cli             # 可封裝成 dotnet global tool 的 CLI 工具
+├── CryptoSuite.Tool             # 可封裝成 dotnet global tool 的 CLI 工具
 ├── CryptoSuite.Tests           # 單元測試（xUnit）
 ├── crypto_config.json          # 設定檔範本
 └── LICENSE / LICENSE.zh-TW     # 授權條款與繁中摘要
@@ -86,7 +86,7 @@ dotnet test
 
 ---
 
-## 🧰 CLI 工具 CryptoSuite.Cli
+## 🧰 CLI 工具 CryptoSuite.Tool
 
 CryptoSuite.Cli 為專案提供命令列支援，方便快速產生金鑰、加解密與簽章驗章作業。
 
