@@ -1,4 +1,7 @@
-﻿<img src="./assets/logo.png" alt="Logo" width="200"/>
+﻿
+<img src="./assets/logo.png" alt="Logo" width="200"/>
+
+# CryptoSuite
 
 CryptoSuite 是一個用於 .NET 的模組化加解密套件，支援 AES、RSA、ECC 等多種演算法，並具備金鑰管理、設定檔讀取、簽署與驗簽等功能，適用於各類安全通訊與數位簽署應用。  
 本套件以 **擴充性與可讀性為核心設計理念**，並整合多項現代加密技術，適合用於企業後端、API 安全、CLI 工具與桌面應用等場景。
@@ -39,6 +42,7 @@ CryptoSuite/
 ## 🚀 快速上手
 
 ### 🔐 加解密範例（使用 Service）
+
 ```csharp
 var data = "Hello World!";
 var keyModel = ...; // 從 key loader 載入的金鑰模型
@@ -47,6 +51,7 @@ var decrypted = cryptoService.Decrypt(encrypted, CryptoAlgorithm.AES, keyModel);
 ```
 
 ### 💡 加解密範例（使用 Extension）
+
 ```csharp
 var encrypted = "Hello World!".EncryptWith(CryptoAlgorithm.AES, keyModel);
 var plainText = encrypted.DecryptWith(CryptoAlgorithm.AES, keyModel);
@@ -81,9 +86,55 @@ dotnet test
 
 ---
 
+## 🧰 CLI 工具 CryptoSuite.Cli
+
+CryptoSuite.Cli 為專案提供命令列支援，方便快速產生金鑰、加解密與簽章驗章作業。
+
+### 支援功能
+
+| 功能 | 支援演算法 |
+|------|------------|
+| 金鑰產生 | AES, RSA, ECC |
+| 加密/解密 | AES, RSA |
+| 簽章/驗章 | RSA, ECC |
+
+### 指令說明
+
+#### 金鑰產生
+
+```bash
+CryptoSuite keygen --alg [AES|RSA|ECC] --out [金鑰檔案路徑] [其他選項]
+```
+
+#### 加密檔案
+
+```bash
+CryptoSuite encrypt --alg [AES|RSA] --key [金鑰檔] --in [輸入檔案] --out [輸出檔案]
+```
+
+#### 解密檔案
+
+```bash
+CryptoSuite decrypt --alg [AES|RSA] --key [金鑰檔] --in [加密檔] --out [解密後檔案]
+```
+
+#### 簽章檔案
+
+```bash
+CryptoSuite sign --alg [RSA|ECC] --key [私鑰檔] --in [輸入檔] --out [簽章檔案]
+```
+
+#### 驗章檔案
+
+```bash
+CryptoSuite verify --alg [RSA|ECC] --key [公鑰檔] --in [輸入檔] --sig [簽章檔案]
+```
+
+---
+
 ## 📄 License
 
-CryptoSuite is licensed under the [Apache License 2.0](./LICENSE).
+CryptoSuite is licensed under the [Apache License 2.0](./LICENSE)。
 
 本專案亦提供 [繁體中文授權條款摘要](./LICENSE.zh-TW)，供中文使用者參考（非正式法律文件，以原始英文授權為準）。
 
@@ -103,4 +154,3 @@ CryptoSuite is licensed under the [Apache License 2.0](./LICENSE).
 - [ ] 支援 NuGet 發展（CryptoSuite.Core / Extensions / Services）
 - [ ] 跨平台 CLI 工具封裝（dotnet tool install）
 - [ ] 支援 OpenAPI 的加密參數中介層（可套用於 Swagger）
-
